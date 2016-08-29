@@ -1,0 +1,22 @@
+<html>
+<head>
+	<h1>{{title}}</h1>
+</head>
+<body>
+	
+{{!loop over the users}}
+{{#users}}
+
+<p>
+	{{id}}: {{username}}, {{age}}
+	{{#if (eq username "pmckinstry") }} 
+	  Winner!
+	{{else}}
+	  {{!Nothing to see here. skip }}
+	{{/if}}
+</p>
+
+{{/users}}
+
+</body>
+</html>
