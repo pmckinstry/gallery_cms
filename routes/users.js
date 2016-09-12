@@ -10,8 +10,8 @@ router.get('/', function(req, res, next) {
 	users.find(function (err, out) {
 		records = out;
     });
-	var recordsAsString = JSON.stringify(records)
-	console.log(recordsAsString);
+	// var recordsAsString = JSON.stringify(records)
+	// console.log(recordsAsString);
 	// res.send("records" + recordsAsString)
     res.render('users', {
 		users: records
@@ -19,12 +19,29 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req,res,next) { 
-	var data = 
-
+	var data = req.body
+	
+	var records = []
+	users.find(function (err, out) { records = out })
+	var max = Math.max.apply(Math,records.map(function(o){return o.id;}))
+	data.id = ++max;
+	
 	users.insert(data, function(result) { 
-		res.json(result)
+		console.log("result: " + result)
 	}); 
-  // res.send('respond with a resource');
+  	// res.send('respond with a resource');
+	res.redirect(301, '/users')
+});
+
+
+router.post('/delete', function(req,res,next) { 
+	var id = parseInt(req.body.id, 10)
+	console.log("id : " + id)
+    users.delete({ id: id }, function (err, records) {
+    });
+
+  	// res.send('respond with a resource');
+	res.redirect(301, '/users')
 });
 
 
