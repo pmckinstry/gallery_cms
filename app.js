@@ -1,5 +1,5 @@
 var express = require('express');
-var hbs = require('express-hbs');
+var exphbs  = require('express-handlebars');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -13,43 +13,16 @@ var users = require('./routes/users');
 var app = express();
 var viewsPath = path.join(__dirname, 'views');
 
-// Use `.hbs` for extensions and find partials in `views/partials`.
-app.engine('hbs', hbs.express4({
-	defaultLayout: viewsPath + '/layouts/main',
-  	partialsDir  : viewsPath + '/partials',
-	layoutsDir   : viewsPath + '/layouts',	
-    extname      : '.hbs', //set extension to .hbs so handlebars knows what to look for
-}));
-
-hbs.registerHelper({
-	eq: function (v1, v2) {
-		return v1 === v2;
-	},
-	ne: function (v1, v2) {
-		return v1 !== v2;
-	},
-	lt: function (v1, v2) {
-		return v1 < v2;
-	},
-	gt: function (v1, v2) {
-		return v1 > v2;
-	},
-	lte: function (v1, v2) {
-		return v1 <= v2;
-	},
-	gte: function (v1, v2) {
-		return v1 >= v2;
-	},
-	and: function (v1, v2) {
-		return v1 && v2;
-	},
-	or: function (v1, v2) {
-		return v1 || v2;
-	}
-});
-
-app.set('view engine', 'hbs');
-app.set('views', __dirname + '/views');
+app.engine('.hbs', exphbs(
+		{
+			defaultLayout: viewsPath + '/layouts/main',
+			partialsDir  : viewsPath + '/partials',
+			layoutsDir   : viewsPath + '/layouts',
+			extname			 : '.hbs'
+		}
+	)
+);
+app.set('view engine', '.hbs');
 
 
 // uncomment after placing your favicon in /public
